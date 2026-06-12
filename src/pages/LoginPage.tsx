@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { login } from '../services/auth.service';
 import { saveSession } from '../services/storage';
@@ -68,6 +68,15 @@ export function LoginPage() {
         >
           {loginMutation.isPending ? 'Entrando…' : 'Entrar'}
         </button>
+
+        <p className="text-center text-sm">
+          <Link
+            to="/forgot-password"
+            className="text-blue-600 hover:underline"
+          >
+            Esqueci minha senha
+          </Link>
+        </p>
       </form>
     </div>
   );

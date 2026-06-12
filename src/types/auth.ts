@@ -27,3 +27,16 @@ export interface CreateUserDTO {
   password: string;
   confirm_password: string;
 }
+
+export interface ResetPasswordDTO {
+  reset_token: string;
+  new_password: string;
+  confirm_new_password: string;
+}
+
+// Espelha a regex de senha forte do backend (create-user / reset-password)
+export const STRONG_PASSWORD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+
+export const STRONG_PASSWORD_MESSAGE =
+  'A senha deve ter no mínimo 8 caracteres, com maiúscula, minúscula, número e caractere especial.';

@@ -57,6 +57,10 @@ export function ApplicationFormPage() {
     setContactRole(application.contact?.role ?? '');
   }, [applicationQuery.data]);
 
+  // Contato é opcional no backend, mas quando enviado o ContactDTO exige os
+  // três campos — por isso o tudo-ou-nada
+  const contactStarted = Boolean(contactName || contactEmail || contactRole);
+
   const saveMutation = useMutation({
     mutationFn: () => {
       if (isEditing) {
@@ -74,7 +78,9 @@ export function ApplicationFormPage() {
         current_status: currentStatus,
         applied_at: appliedAt,
         notes: notes || undefined,
-        contact: { name: contactName, email: contactEmail, role: contactRole },
+        contact: contactStarted
+          ? { name: contactName, email: contactEmail, role: contactRole }
+          : undefined,
       });
     },
     onSuccess: () => {
@@ -212,13 +218,13 @@ export function ApplicationFormPage() {
 
       <fieldset className="space-y-4 rounded border border-gray-200 p-4">
         <legend className="px-1 text-sm font-medium text-gray-700">
-          Contato
+          Contato (opcional)
         </legend>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <label className="block">
             <span className="text-sm font-medium text-gray-700">Nome</span>
             <input
-              required={!isEditing}
+              required={!isEditing && contactStarted}
               disabled={isEditing}
               value={contactName}
               onChange={(e) => setContactName(e.target.value)}
@@ -229,7 +235,7 @@ export function ApplicationFormPage() {
             <span className="text-sm font-medium text-gray-700">E-mail</span>
             <input
               type="email"
-              required={!isEditing}
+              required={!isEditing && contactStarted}
               disabled={isEditing}
               value={contactEmail}
               onChange={(e) => setContactEmail(e.target.value)}
@@ -239,7 +245,7 @@ export function ApplicationFormPage() {
           <label className="block">
             <span className="text-sm font-medium text-gray-700">Cargo</span>
             <input
-              required={!isEditing}
+              required={!isEditing && contactStarted}
               disabled={isEditing}
               value={contactRole}
               onChange={(e) => setContactRole(e.target.value)}

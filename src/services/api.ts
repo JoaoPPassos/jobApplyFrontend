@@ -17,8 +17,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiError>) => {
-    const isLoginRequest = error.config?.url?.includes('/auth/login');
-    if (error.response?.status === 401 && !isLoginRequest) {
+    // 401 em /auth/* é erro do próprio fluxo (credenciais inválidas, reset
+    // token expirado), não sessão expirada — não redirecionar
+    const isAuthRequest = error.config?.url?.includes('/auth/');
+    if (error.response?.status === 401 && !isAuthRequest) {
       clearSession();
       window.location.href = '/login';
     }

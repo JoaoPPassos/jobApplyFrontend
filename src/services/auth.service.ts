@@ -5,6 +5,7 @@ import type {
   AuthLogin,
   AuthUser,
   CreateUserDTO,
+  ResetPasswordDTO,
 } from '../types/auth';
 
 export async function login(payload: AuthenticateUserDTO): Promise<AuthLogin> {
@@ -21,4 +22,23 @@ export async function signUp(payload: CreateUserDTO): Promise<AuthUser> {
     payload,
   );
   return data.data;
+}
+
+export async function forgotPassword(email: string): Promise<void> {
+  await api.post<ApiResponse<null>>('/auth/forgot-password', { email });
+}
+
+export async function verifyResetCode(
+  email: string,
+  code: string,
+): Promise<string> {
+  const { data } = await api.post<ApiResponse<{ reset_token: string }>>(
+    '/auth/verify-reset-code',
+    { email, code },
+  );
+  return data.data.reset_token;
+}
+
+export async function resetPassword(payload: ResetPasswordDTO): Promise<void> {
+  await api.post<ApiResponse<null>>('/auth/reset-password', payload);
 }

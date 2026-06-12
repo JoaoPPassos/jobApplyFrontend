@@ -43,7 +43,7 @@ export interface Application {
   id: string;
   current_status: ApplicationStatus;
   applied_at: string;
-  notes: string;
+  notes: string | null;
   job?: Job;
   contact?: Contact;
   created_at: string;
@@ -64,7 +64,7 @@ export interface CreateApplicationDTO {
   current_status: ApplicationStatus;
   applied_at: string;
   notes?: string;
-  contact: ContactDTO;
+  contact?: ContactDTO;
 }
 
 export interface UpdateApplicationDTO {
