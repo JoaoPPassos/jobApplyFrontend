@@ -1,0 +1,6 @@
+services:
+  frontend:
+    image: ghcr.io/joaoppassos/jobapplyfrontend:latest
+    restart: always
+    ports:
+      - "80:80"
