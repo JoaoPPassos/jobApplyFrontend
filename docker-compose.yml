@@ -3,4 +3,4 @@ services:
     image: ghcr.io/joaoppassos/jobapplyfrontend:latest
     restart: always
     ports:
-      - "80:80"
+      - "4173:4173"
