@@ -1,20 +1,43 @@
+import { type CSSProperties } from 'react';
 import type { ApplicationStatus } from '../types/application';
 
-const STATUS_STYLES: Record<ApplicationStatus, string> = {
-  applied: 'bg-blue-100 text-blue-800',
-  in_review: 'bg-yellow-100 text-yellow-800',
-  interview: 'bg-purple-100 text-purple-800',
-  offer: 'bg-green-100 text-green-800',
-  rejected: 'bg-red-100 text-red-800',
-  withdrawn: 'bg-gray-200 text-gray-700',
-  no_response: 'bg-gray-100 text-gray-500',
-};
+interface StatusBadgeProps {
+  status: ApplicationStatus;
+  label?: string;
+  style?: CSSProperties;
+}
 
-export function StatusBadge({ status }: { status: ApplicationStatus }) {
-  const style = STATUS_STYLES[status] ?? 'bg-gray-100 text-gray-700';
+export function StatusBadge({ status, label, style }: StatusBadgeProps) {
+  const known: ApplicationStatus = status in KNOWN_STATUSES ? status : 'no_response';
   return (
-    <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${style}`}>
-      {status}
+    <span
+      data-status={known}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
+        padding: '2px 10px',
+        borderRadius: 'var(--radius-full)',
+        background: `var(--status-${known}-soft)`,
+        color: `var(--status-${known}-text)`,
+        font: label != null ? 'var(--font-caption)' : 'var(--font-mono-sm)',
+        fontWeight: 'var(--weight-medium)',
+        whiteSpace: 'nowrap',
+        ...style,
+      }}
+    >
+      <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'currentColor', opacity: 0.7, flexShrink: 0 }} />
+      {label ?? known}
     </span>
   );
 }
+
+const KNOWN_STATUSES: Record<ApplicationStatus, true> = {
+  applied: true,
+  in_review: true,
+  interview: true,
+  offer: true,
+  rejected: true,
+  withdrawn: true,
+  no_response: true,
+};

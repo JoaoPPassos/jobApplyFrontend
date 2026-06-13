@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import {
   createApplication,
   getApplication,
@@ -13,25 +14,29 @@ import {
   type ApplicationStatus,
   type SourcePlatform,
 } from '../types/application';
+import { Card } from '../components/ui/Card';
+import { Field } from '../components/ui/Field';
+import { Input } from '../components/ui/Input';
+import { Select } from '../components/ui/Select';
+import { Textarea } from '../components/ui/Textarea';
+import { Button } from '../components/ui/Button';
+import { Alert } from '../components/ui/Alert';
+import { Spinner } from '../components/ui/Spinner';
 
 // O backend só permite atualizar current_status, applied_at e notes
-// (UpdateApplicationDTO); os demais campos ficam desabilitados na edição.
 export function ApplicationFormPage() {
   const { id } = useParams<{ id: string }>();
   const isEditing = Boolean(id);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const [jobSourceUrl, setJobSourceUrl] = useState('');
   const [company, setCompany] = useState('');
   const [role, setRole] = useState('');
-  const [sourcePlatform, setSourcePlatform] =
-    useState<SourcePlatform>('linkedin');
-  const [currentStatus, setCurrentStatus] =
-    useState<ApplicationStatus>('applied');
-  const [appliedAt, setAppliedAt] = useState(
-    new Date().toISOString().slice(0, 10),
-  );
+  const [sourcePlatform, setSourcePlatform] = useState<SourcePlatform>('linkedin');
+  const [currentStatus, setCurrentStatus] = useState<ApplicationStatus>('applied');
+  const [appliedAt, setAppliedAt] = useState(new Date().toISOString().slice(0, 10));
   const [notes, setNotes] = useState('');
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
@@ -57,8 +62,6 @@ export function ApplicationFormPage() {
     setContactRole(application.contact?.role ?? '');
   }, [applicationQuery.data]);
 
-  // Contato é opcional no backend, mas quando enviado o ContactDTO exige os
-  // três campos — por isso o tudo-ou-nada
   const contactStarted = Boolean(contactName || contactEmail || contactRole);
 
   const saveMutation = useMutation({
@@ -95,182 +98,145 @@ export function ApplicationFormPage() {
   }
 
   if (isEditing && applicationQuery.isPending) {
-    return <p className="text-gray-500">Carregando aplicação…</p>;
+    return <Spinner label={t('loading.application')} />;
   }
 
   if (isEditing && applicationQuery.isError) {
-    return (
-      <p className="rounded bg-red-50 p-3 text-sm text-red-700">
-        {getApiErrorMessage(applicationQuery.error)}
-      </p>
-    );
+    return <Alert tone="danger">{getApiErrorMessage(applicationQuery.error)}</Alert>;
   }
 
-  const inputClass =
-    'mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none disabled:bg-gray-100 disabled:text-gray-500';
-
   return (
-    <form
+    <Card
+      as="form"
       onSubmit={handleSubmit}
-      className="space-y-4 rounded-lg bg-white p-6 shadow"
+      style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}
     >
-      <h1 className="text-xl font-bold">
-        {isEditing ? 'Editar aplicação' : 'Nova aplicação'}
+      <h1 style={{ font: 'var(--font-h1)' }}>
+        {isEditing ? t('form.editTitle') : t('form.newTitle')}
       </h1>
 
       {saveMutation.isError && (
-        <p className="rounded bg-red-50 p-2 text-sm text-red-700">
-          {getApiErrorMessage(saveMutation.error)}
-        </p>
+        <Alert tone="danger">{getApiErrorMessage(saveMutation.error)}</Alert>
       )}
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <label className="block">
-          <span className="text-sm font-medium text-gray-700">Empresa</span>
-          <input
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+        <Field label={t('form.company')} required>
+          <Input
             required
             disabled={isEditing}
             value={company}
             onChange={(e) => setCompany(e.target.value)}
-            className={inputClass}
           />
-        </label>
+        </Field>
 
-        <label className="block">
-          <span className="text-sm font-medium text-gray-700">Cargo</span>
-          <input
+        <Field label={t('form.role')} required>
+          <Input
             required
             disabled={isEditing}
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            className={inputClass}
           />
-        </label>
+        </Field>
 
-        <label className="block sm:col-span-2">
-          <span className="text-sm font-medium text-gray-700">URL da vaga</span>
-          <input
+        <Field label={t('form.url')} required style={{ gridColumn: '1 / -1' }}>
+          <Input
             type="url"
+            mono
             required
             disabled={isEditing}
             value={jobSourceUrl}
             onChange={(e) => setJobSourceUrl(e.target.value)}
-            className={inputClass}
           />
-        </label>
+        </Field>
 
-        <label className="block">
-          <span className="text-sm font-medium text-gray-700">Plataforma</span>
-          <select
+        <Field label={t('form.platform')}>
+          <Select
             disabled={isEditing}
             value={sourcePlatform}
             onChange={(e) => setSourcePlatform(e.target.value as SourcePlatform)}
-            className={inputClass}
           >
-            {SOURCE_PLATFORMS.map((platform) => (
-              <option key={platform} value={platform}>
-                {platform}
-              </option>
+            {SOURCE_PLATFORMS.map((p) => (
+              <option key={p} value={p}>{p}</option>
             ))}
-          </select>
-        </label>
+          </Select>
+        </Field>
 
-        <label className="block">
-          <span className="text-sm font-medium text-gray-700">Status</span>
-          <select
+        <Field label={t('form.status')}>
+          <Select
             value={currentStatus}
-            onChange={(e) =>
-              setCurrentStatus(e.target.value as ApplicationStatus)
-            }
-            className={inputClass}
+            onChange={(e) => setCurrentStatus(e.target.value as ApplicationStatus)}
           >
-            {APPLICATION_STATUSES.map((status) => (
-              <option key={status} value={status}>
-                {status}
-              </option>
+            {APPLICATION_STATUSES.map((s) => (
+              <option key={s} value={s}>{t(`status.${s}`)}</option>
             ))}
-          </select>
-        </label>
+          </Select>
+        </Field>
 
-        <label className="block">
-          <span className="text-sm font-medium text-gray-700">
-            Data da aplicação
-          </span>
-          <input
+        <Field label={t('form.date')}>
+          <Input
             type="date"
             required
             value={appliedAt}
             onChange={(e) => setAppliedAt(e.target.value)}
-            className={inputClass}
           />
-        </label>
+        </Field>
       </div>
 
-      <label className="block">
-        <span className="text-sm font-medium text-gray-700">Notas</span>
-        <textarea
+      <Field label={t('form.notes')}>
+        <Textarea
           rows={3}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className={inputClass}
         />
-      </label>
+      </Field>
 
-      <fieldset className="space-y-4 rounded border border-gray-200 p-4">
-        <legend className="px-1 text-sm font-medium text-gray-700">
-          Contato (opcional)
+      <fieldset style={{ border: '1px solid var(--border-default)', borderRadius: 'var(--radius-md)', padding: 'var(--space-4)' }}>
+        <legend style={{ padding: '0 var(--space-1)', font: 'var(--font-body-strong)', color: 'var(--text-body)' }}>
+          {t('form.contact')}
         </legend>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <label className="block">
-            <span className="text-sm font-medium text-gray-700">Nome</span>
-            <input
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 'var(--space-4)' }}>
+          <Field label={t('form.contactName')}>
+            <Input
               required={!isEditing && contactStarted}
               disabled={isEditing}
               value={contactName}
               onChange={(e) => setContactName(e.target.value)}
-              className={inputClass}
             />
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium text-gray-700">E-mail</span>
-            <input
+          </Field>
+          <Field label={t('form.contactEmail')}>
+            <Input
               type="email"
               required={!isEditing && contactStarted}
               disabled={isEditing}
               value={contactEmail}
               onChange={(e) => setContactEmail(e.target.value)}
-              className={inputClass}
             />
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium text-gray-700">Cargo</span>
-            <input
+          </Field>
+          <Field label={t('form.contactRole')}>
+            <Input
               required={!isEditing && contactStarted}
               disabled={isEditing}
               value={contactRole}
               onChange={(e) => setContactRole(e.target.value)}
-              className={inputClass}
             />
-          </label>
+          </Field>
         </div>
       </fieldset>
 
-      <div className="flex gap-3">
-        <button
-          type="submit"
-          disabled={saveMutation.isPending}
-          className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
-          {saveMutation.isPending ? 'Salvando…' : 'Salvar'}
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          className="rounded bg-gray-200 px-4 py-2 text-sm hover:bg-gray-300"
-        >
-          Cancelar
-        </button>
+      {isEditing && (
+        <p style={{ font: 'var(--font-caption)', color: 'var(--text-subtle)' }}>
+          {t('form.lockNote')}
+        </p>
+      )}
+
+      <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+        <Button type="submit" variant="primary" disabled={saveMutation.isPending}>
+          {saveMutation.isPending ? t('form.saving') : t('form.save')}
+        </Button>
+        <Button type="button" variant="secondary" onClick={() => navigate('/')}>
+          {t('form.cancel')}
+        </Button>
       </div>
-    </form>
+    </Card>
   );
 }

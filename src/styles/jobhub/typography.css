@@ -1,0 +1,52 @@
+/* ============================================================
+   Job Hub — Typography tokens
+   One family does the work: Geist for UI + Geist Mono for data
+   (status keys, dates, IDs, salary ranges, match scores). The app
+   is data-dense, so the mono face carries all the tabular bits.
+   ============================================================ */
+
+:root {
+  /* ---- Families -------------------------------------------- */
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
+
+  /* ---- Size scale ------------------------------------------ */
+  --text-xs:   0.75rem;  /* 12px — badges, captions */
+  --text-sm:   0.875rem; /* 14px — app body default */
+  --text-base: 1rem;     /* 16px */
+  --text-lg:   1.125rem; /* 18px — brand wordmark */
+  --text-xl:   1.25rem;  /* 20px — page titles (h1) */
+  --text-2xl:  1.5rem;   /* 24px */
+  --text-3xl:  1.875rem; /* 30px — marketing headings */
+  --text-4xl:  2.25rem;  /* 36px */
+  --text-5xl:  3rem;     /* 48px — hero */
+
+  /* ---- Weights --------------------------------------------- */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ---- Line heights ---------------------------------------- */
+  --leading-tight:   1.2;
+  --leading-snug:    1.35;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  /* ---- Letter spacing -------------------------------------- */
+  --tracking-tight:  -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
+  --tracking-caps:   0.06em; /* uppercase labels / eyebrows */
+
+  /* ---- Semantic roles -------------------------------------- */
+  --font-display:  var(--weight-bold) var(--text-4xl)/var(--leading-tight) var(--font-sans);
+  --font-h1:       var(--weight-bold) var(--text-xl)/var(--leading-snug) var(--font-sans);
+  --font-h2:       var(--weight-semibold) var(--text-lg)/var(--leading-snug) var(--font-sans);
+  --font-body:     var(--weight-regular) var(--text-sm)/var(--leading-normal) var(--font-sans);
+  --font-body-strong: var(--weight-medium) var(--text-sm)/var(--leading-normal) var(--font-sans);
+  --font-caption:  var(--weight-regular) var(--text-xs)/var(--leading-snug) var(--font-sans);
+  --font-mono-sm:  var(--weight-medium) var(--text-xs)/var(--leading-snug) var(--font-mono);
+}

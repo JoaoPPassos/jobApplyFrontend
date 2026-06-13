@@ -1,26 +1,27 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import {
   forgotPassword,
   resetPassword,
   verifyResetCode,
 } from '../services/auth.service';
 import { getApiErrorMessage } from '../services/api';
-import {
-  STRONG_PASSWORD_MESSAGE,
-  STRONG_PASSWORD_REGEX,
-} from '../types/auth';
+import { STRONG_PASSWORD_REGEX } from '../types/auth';
+import { Card } from '../components/ui/Card';
+import { Field } from '../components/ui/Field';
+import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button';
+import { Alert } from '../components/ui/Alert';
+import { LanguageSwitcher } from '../components/ui/LanguageSwitcher';
+import logoSrc from '../assets/logo.svg';
 
 type Step = 'email' | 'code' | 'password';
 
-const inputClass =
-  'mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none';
-const buttonClass =
-  'w-full rounded bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50';
-
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
@@ -53,11 +54,7 @@ export function ForgotPasswordPage() {
   });
 
   const activeMutation =
-    step === 'email'
-      ? emailMutation
-      : step === 'code'
-        ? codeMutation
-        : passwordMutation;
+    step === 'email' ? emailMutation : step === 'code' ? codeMutation : passwordMutation;
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -69,7 +66,7 @@ export function ForgotPasswordPage() {
       codeMutation.mutate();
     } else {
       if (!STRONG_PASSWORD_REGEX.test(newPassword)) {
-        setValidationError(STRONG_PASSWORD_MESSAGE);
+        setValidationError(t('recover.pwdHint'));
         return;
       }
       if (newPassword !== confirmNewPassword) {
@@ -80,112 +77,119 @@ export function ForgotPasswordPage() {
     }
   }
 
+  const submitLabel =
+    step === 'email' ? t('recover.sendCode') :
+    step === 'code' ? t('recover.verifyCode') :
+    t('recover.resetPwd');
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-sm space-y-4 rounded-lg bg-white p-6 shadow"
-      >
-        <h1 className="text-center text-xl font-bold text-blue-700">
-          Recuperar senha
-        </h1>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 'var(--space-6)',
+      background: 'var(--surface-page)',
+      padding: 'var(--space-6)',
+      position: 'relative',
+    }}>
+      <div style={{ position: 'absolute', top: 'var(--space-4)', right: 'var(--space-4)' }}>
+        <LanguageSwitcher
+          value={i18n.resolvedLanguage ?? 'pt-BR'}
+          onChange={(code) => i18n.changeLanguage(code)}
+        />
+      </div>
 
-        {(activeMutation.isError || validationError) && (
-          <p className="rounded bg-red-50 p-2 text-sm text-red-700">
-            {validationError || getApiErrorMessage(activeMutation.error)}
-          </p>
-        )}
+      <img src={logoSrc} alt="Job Hub" height={34} />
 
-        {step === 'email' && (
-          <>
-            <p className="text-sm text-gray-600">
-              Informe seu e-mail. Se ele estiver cadastrado, enviaremos um
-              código de 6 dígitos.
-            </p>
-            <label className="block">
-              <span className="text-sm font-medium text-gray-700">E-mail</span>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={inputClass}
-              />
-            </label>
-          </>
-        )}
-
-        {step === 'code' && (
-          <>
-            <p className="text-sm text-gray-600">
-              Digite o código de 6 dígitos enviado para{' '}
-              <span className="font-medium">{email}</span>.
-            </p>
-            <label className="block">
-              <span className="text-sm font-medium text-gray-700">Código</span>
-              <input
-                required
-                inputMode="numeric"
-                minLength={6}
-                maxLength={6}
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                className={`${inputClass} text-center tracking-[0.5em]`}
-              />
-            </label>
-          </>
-        )}
-
-        {step === 'password' && (
-          <>
-            <p className="text-sm text-gray-600">{STRONG_PASSWORD_MESSAGE}</p>
-            <label className="block">
-              <span className="text-sm font-medium text-gray-700">
-                Nova senha
-              </span>
-              <input
-                type="password"
-                required
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className={inputClass}
-              />
-            </label>
-            <label className="block">
-              <span className="text-sm font-medium text-gray-700">
-                Confirmar nova senha
-              </span>
-              <input
-                type="password"
-                required
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                className={inputClass}
-              />
-            </label>
-          </>
-        )}
-
-        <button
-          type="submit"
-          disabled={activeMutation.isPending}
-          className={buttonClass}
+      <div style={{ width: '100%', maxWidth: 'var(--container-auth)' }}>
+        <Card
+          as="form"
+          onSubmit={handleSubmit}
+          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}
         >
-          {activeMutation.isPending
-            ? 'Enviando…'
-            : step === 'email'
-              ? 'Enviar código'
-              : step === 'code'
-                ? 'Verificar código'
-                : 'Redefinir senha'}
-        </button>
+          <h1 style={{ font: 'var(--font-h1)', textAlign: 'center' }}>{t('recover.title')}</h1>
 
-        <p className="text-center text-sm">
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Voltar para o login
-          </Link>
-        </p>
-      </form>
+          {(activeMutation.isError || validationError) && (
+            <Alert tone="danger">
+              {validationError || getApiErrorMessage(activeMutation.error)}
+            </Alert>
+          )}
+
+          {step === 'email' && (
+            <>
+              <p style={{ font: 'var(--font-body)', color: 'var(--text-muted)' }}>
+                {t('recover.emailHint')}
+              </p>
+              <Field label={t('auth.email')} htmlFor="fp-email">
+                <Input
+                  id="fp-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Field>
+            </>
+          )}
+
+          {step === 'code' && (
+            <>
+              <p style={{ font: 'var(--font-body)', color: 'var(--text-muted)' }}>
+                {t('recover.codeHint')} <strong>{email}</strong>.
+              </p>
+              <Field label={t('recover.code')} htmlFor="fp-code">
+                <Input
+                  id="fp-code"
+                  mono
+                  inputMode="numeric"
+                  minLength={6}
+                  maxLength={6}
+                  required
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  style={{ textAlign: 'center', letterSpacing: '0.5em' }}
+                />
+              </Field>
+            </>
+          )}
+
+          {step === 'password' && (
+            <>
+              <p style={{ font: 'var(--font-body)', color: 'var(--text-muted)' }}>
+                {t('recover.pwdHint')}
+              </p>
+              <Field label={t('recover.newPwd')} htmlFor="fp-new">
+                <Input
+                  id="fp-new"
+                  type="password"
+                  required
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </Field>
+              <Field label={t('recover.confirmPwd')} htmlFor="fp-conf">
+                <Input
+                  id="fp-conf"
+                  type="password"
+                  required
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                />
+              </Field>
+            </>
+          )}
+
+          <Button type="submit" variant="primary" fullWidth disabled={activeMutation.isPending}>
+            {activeMutation.isPending ? t('recover.sending') : submitLabel}
+          </Button>
+
+          <p style={{ textAlign: 'center', font: 'var(--font-caption)' }}>
+            <Link to="/login">{t('recover.back')}</Link>
+          </p>
+        </Card>
+      </div>
     </div>
   );
 }

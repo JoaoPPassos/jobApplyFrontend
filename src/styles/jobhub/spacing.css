@@ -1,0 +1,63 @@
+/* ============================================================
+   Job Hub — Spacing, radii, shadows, borders, layout, motion
+   4px base grid. The app is content-dense (text-sm bodies,
+   compact list rows), so spacing skews tight.
+   ============================================================ */
+
+:root {
+  /* ---- Spacing scale (4px grid) ---------------------------- */
+  --space-0:  0;
+  --space-1:  0.25rem; /* 4px */
+  --space-2:  0.5rem;  /* 8px */
+  --space-3:  0.75rem; /* 12px */
+  --space-4:  1rem;    /* 16px — default gap inside cards */
+  --space-5:  1.25rem; /* 20px */
+  --space-6:  1.5rem;  /* 24px — card padding */
+  --space-8:  2rem;    /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+
+  /* ---- Radii ----------------------------------------------- */
+  --radius-sm:   4px;    /* buttons, inputs, selects */
+  --radius-md:   8px;    /* cards, forms, dialogs */
+  --radius-lg:   12px;   /* larger panels */
+  --radius-xl:   16px;
+  --radius-full: 9999px; /* badges, avatars, pills */
+
+  /* ---- Borders --------------------------------------------- */
+  --border-width: 1px;
+  --border-thick: 2px;
+
+  /* ---- Shadows --------------------------------------------- */
+  /* Mirrors the app's flat "shadow" (cards) and adds a small
+     scale for elevation. Tinted with slate for cohesion. */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.1),
+               0 1px 2px -1px rgba(15, 23, 42, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08),
+               0 2px 4px -2px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.1),
+               0 4px 6px -4px rgba(15, 23, 42, 0.05);
+  --shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.25); /* focus ring */
+
+  /* ---- Layout ---------------------------------------------- */
+  --container-app:  56rem; /* max-w-4xl — tracker views */
+  --container-auth: 24rem; /* max-w-sm — login / forms */
+  --container-wide: 72rem; /* marketing / pricing */
+  --header-height:  57px;
+
+  /* ---- Motion ---------------------------------------------- */
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --duration-fast:   120ms; /* @kind other */
+  --duration-normal: 180ms; /* @kind other */
+  --duration-slow:   280ms; /* @kind other */
+
+  /* ---- Z-index --------------------------------------------- */
+  --z-header:  50;   /* @kind other */
+  --z-dropdown: 100; /* @kind other */
+  --z-overlay: 200;  /* @kind other */
+  --z-dialog:  210;  /* @kind other */
+  --z-toast:   300;  /* @kind other */
+}

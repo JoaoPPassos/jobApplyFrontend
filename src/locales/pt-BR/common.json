@@ -1,0 +1,70 @@
+{
+  "auth": {
+    "title": "Entrar na sua conta",
+    "email": "E-mail",
+    "password": "Senha",
+    "enter": "Entrar",
+    "entering": "Entrando…",
+    "forgot": "Esqueci minha senha"
+  },
+  "recover": {
+    "title": "Recuperar senha",
+    "emailHint": "Informe seu e-mail. Se ele estiver cadastrado, enviaremos um código de 6 dígitos.",
+    "codeHint": "Digite o código de 6 dígitos enviado para",
+    "code": "Código",
+    "pwdHint": "A senha deve ter no mínimo 8 caracteres, com maiúscula, minúscula, número e caractere especial.",
+    "newPwd": "Nova senha",
+    "confirmPwd": "Confirmar nova senha",
+    "sendCode": "Enviar código",
+    "verifyCode": "Verificar código",
+    "resetPwd": "Redefinir senha",
+    "sending": "Enviando…",
+    "success": "Senha redefinida com sucesso. Faça login novamente.",
+    "back": "Voltar para o login"
+  },
+  "header": {
+    "logout": "Sair"
+  },
+  "list": {
+    "title": "Minhas aplicações",
+    "new": "Nova aplicação",
+    "all": "Todas",
+    "appliedOn": "aplicado em",
+    "edit": "Editar",
+    "remove": "Remover",
+    "emptyTitle": "Nenhuma aplicação encontrada.",
+    "emptyDesc": "Registre sua primeira candidatura para começar a acompanhar o funil."
+  },
+  "form": {
+    "newTitle": "Nova aplicação",
+    "editTitle": "Editar aplicação",
+    "company": "Empresa",
+    "role": "Cargo",
+    "url": "URL da vaga",
+    "platform": "Plataforma",
+    "status": "Status",
+    "date": "Data da aplicação",
+    "notes": "Notas",
+    "save": "Salvar",
+    "saving": "Salvando…",
+    "cancel": "Cancelar",
+    "lockNote": "Empresa, cargo e URL não podem ser alterados após a criação.",
+    "contact": "Contato (opcional)",
+    "contactName": "Nome",
+    "contactEmail": "E-mail",
+    "contactRole": "Cargo"
+  },
+  "status": {
+    "applied": "Aplicado",
+    "in_review": "Em análise",
+    "interview": "Entrevista",
+    "offer": "Oferta",
+    "rejected": "Rejeitado",
+    "withdrawn": "Retirado",
+    "no_response": "Sem resposta"
+  },
+  "loading": {
+    "applications": "Carregando aplicações…",
+    "application": "Carregando aplicação…"
+  }
+}

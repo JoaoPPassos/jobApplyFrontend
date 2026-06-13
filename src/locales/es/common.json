@@ -1,0 +1,70 @@
+{
+  "auth": {
+    "title": "Inicia sesión en tu cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "enter": "Entrar",
+    "entering": "Entrando…",
+    "forgot": "Olvidé mi contraseña"
+  },
+  "recover": {
+    "title": "Recuperar contraseña",
+    "emailHint": "Indica tu correo. Si está registrado, te enviaremos un código de 6 dígitos.",
+    "codeHint": "Escribe el código de 6 dígitos enviado a",
+    "code": "Código",
+    "pwdHint": "La contraseña debe tener al menos 8 caracteres, con mayúscula, minúscula, número y carácter especial.",
+    "newPwd": "Nueva contraseña",
+    "confirmPwd": "Confirmar nueva contraseña",
+    "sendCode": "Enviar código",
+    "verifyCode": "Verificar código",
+    "resetPwd": "Restablecer contraseña",
+    "sending": "Enviando…",
+    "success": "Contraseña restablecida con éxito. Inicia sesión de nuevo.",
+    "back": "Volver al inicio de sesión"
+  },
+  "header": {
+    "logout": "Salir"
+  },
+  "list": {
+    "title": "Mis postulaciones",
+    "new": "Nueva postulación",
+    "all": "Todas",
+    "appliedOn": "postulado el",
+    "edit": "Editar",
+    "remove": "Eliminar",
+    "emptyTitle": "No se encontraron postulaciones.",
+    "emptyDesc": "Registra tu primera postulación para empezar a seguir el embudo."
+  },
+  "form": {
+    "newTitle": "Nueva postulación",
+    "editTitle": "Editar postulación",
+    "company": "Empresa",
+    "role": "Puesto",
+    "url": "URL de la vacante",
+    "platform": "Plataforma",
+    "status": "Estado",
+    "date": "Fecha de postulación",
+    "notes": "Notas",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "cancel": "Cancelar",
+    "lockNote": "Empresa, puesto y URL no se pueden cambiar después de crearse.",
+    "contact": "Contacto (opcional)",
+    "contactName": "Nombre",
+    "contactEmail": "Correo electrónico",
+    "contactRole": "Puesto"
+  },
+  "status": {
+    "applied": "Postulado",
+    "in_review": "En revisión",
+    "interview": "Entrevista",
+    "offer": "Oferta",
+    "rejected": "Rechazado",
+    "withdrawn": "Retirado",
+    "no_response": "Sin respuesta"
+  },
+  "loading": {
+    "applications": "Cargando postulaciones…",
+    "application": "Cargando postulación…"
+  }
+}

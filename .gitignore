@@ -2,3 +2,4 @@ node_modules
 dist
 .env
 *.local
+_handoff_ds_i18n

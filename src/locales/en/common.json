@@ -1,0 +1,70 @@
+{
+  "auth": {
+    "title": "Sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "enter": "Sign in",
+    "entering": "Signing in…",
+    "forgot": "Forgot my password"
+  },
+  "recover": {
+    "title": "Reset password",
+    "emailHint": "Enter your email. If it is registered, we will send a 6-digit code.",
+    "codeHint": "Enter the 6-digit code sent to",
+    "code": "Code",
+    "pwdHint": "Password must be at least 8 characters, with uppercase, lowercase, a number and a special character.",
+    "newPwd": "New password",
+    "confirmPwd": "Confirm new password",
+    "sendCode": "Send code",
+    "verifyCode": "Verify code",
+    "resetPwd": "Reset password",
+    "sending": "Sending…",
+    "success": "Password reset successfully. Please sign in again.",
+    "back": "Back to sign in"
+  },
+  "header": {
+    "logout": "Sign out"
+  },
+  "list": {
+    "title": "My applications",
+    "new": "New application",
+    "all": "All",
+    "appliedOn": "applied on",
+    "edit": "Edit",
+    "remove": "Remove",
+    "emptyTitle": "No applications found.",
+    "emptyDesc": "Log your first application to start tracking the funnel."
+  },
+  "form": {
+    "newTitle": "New application",
+    "editTitle": "Edit application",
+    "company": "Company",
+    "role": "Role",
+    "url": "Job URL",
+    "platform": "Platform",
+    "status": "Status",
+    "date": "Application date",
+    "notes": "Notes",
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "lockNote": "Company, role and URL cannot be changed after creation.",
+    "contact": "Contact (optional)",
+    "contactName": "Name",
+    "contactEmail": "Email",
+    "contactRole": "Role"
+  },
+  "status": {
+    "applied": "Applied",
+    "in_review": "In review",
+    "interview": "Interview",
+    "offer": "Offer",
+    "rejected": "Rejected",
+    "withdrawn": "Withdrawn",
+    "no_response": "No response"
+  },
+  "loading": {
+    "applications": "Loading applications…",
+    "application": "Loading application…"
+  }
+}

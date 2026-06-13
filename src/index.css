@@ -1,1 +1,16 @@
 @import 'tailwindcss';
+
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap");
+
+@import './styles/jobhub/colors.css';
+@import './styles/jobhub/typography.css';
+@import './styles/jobhub/spacing.css';
+@import './styles/jobhub/base.css';
+
+@theme {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-page: #f1f5f9;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}

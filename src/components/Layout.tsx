@@ -1,9 +1,15 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { clearSession, getStoredUser } from '../services/storage';
+import { Avatar } from './ui/Avatar';
+import { Button } from './ui/Button';
+import { LanguageSwitcher } from './ui/LanguageSwitcher';
+import logoSrc from '../assets/logo.svg';
 
 export function Layout() {
   const navigate = useNavigate();
   const user = getStoredUser();
+  const { t, i18n } = useTranslation();
 
   function handleLogout() {
     clearSession();
@@ -11,24 +17,42 @@ export function Layout() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-          <Link to="/" className="text-lg font-bold text-blue-700">
-            JobApply
+    <div style={{ minHeight: '100vh', background: 'var(--surface-page)' }}>
+      <header style={{
+        background: 'var(--surface-card)',
+        boxShadow: 'var(--shadow-sm)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 'var(--z-header)' as unknown as number,
+      }}>
+        <div style={{
+          maxWidth: 'var(--container-app)',
+          margin: '0 auto',
+          height: 'var(--header-height)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 var(--space-4)',
+        }}>
+          <Link to="/" style={{ display: 'flex' }}>
+            <img src={logoSrc} alt="Job Hub" height={28} />
           </Link>
-          <div className="flex items-center gap-4">
-            {user && <span className="text-sm text-gray-600">{user.name}</span>}
-            <button
-              onClick={handleLogout}
-              className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
-            >
-              Sair
-            </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+            <LanguageSwitcher
+              value={i18n.resolvedLanguage ?? 'pt-BR'}
+              onChange={(code) => i18n.changeLanguage(code)}
+            />
+            {user && <Avatar name={user.name} size={30} />}
+            {user && (
+              <span style={{ font: 'var(--font-body)', color: 'var(--text-body)' }}>{user.name}</span>
+            )}
+            <Button variant="secondary" size="sm" onClick={handleLogout}>
+              {t('header.logout')}
+            </Button>
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-4xl px-4 py-6">
+      <main style={{ maxWidth: 'var(--container-app)', margin: '0 auto', padding: 'var(--space-6) var(--space-4)' }}>
         <Outlet />
       </main>
     </div>

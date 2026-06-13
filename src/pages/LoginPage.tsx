@@ -1,12 +1,21 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { login } from '../services/auth.service';
 import { saveSession } from '../services/storage';
 import { getApiErrorMessage } from '../services/api';
+import { Card } from '../components/ui/Card';
+import { Field } from '../components/ui/Field';
+import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button';
+import { Alert } from '../components/ui/Alert';
+import { LanguageSwitcher } from '../components/ui/LanguageSwitcher';
+import logoSrc from '../assets/logo.svg';
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,60 +33,67 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-sm space-y-4 rounded-lg bg-white p-6 shadow"
-      >
-        <h1 className="text-center text-xl font-bold text-blue-700">
-          JobApply — Login
-        </h1>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 'var(--space-6)',
+      background: 'var(--surface-page)',
+      padding: 'var(--space-6)',
+      position: 'relative',
+    }}>
+      <div style={{ position: 'absolute', top: 'var(--space-4)', right: 'var(--space-4)' }}>
+        <LanguageSwitcher
+          value={i18n.resolvedLanguage ?? 'pt-BR'}
+          onChange={(code) => i18n.changeLanguage(code)}
+        />
+      </div>
 
-        {loginMutation.isError && (
-          <p className="rounded bg-red-50 p-2 text-sm text-red-700">
-            {getApiErrorMessage(loginMutation.error)}
-          </p>
-        )}
+      <img src={logoSrc} alt="Job Hub" height={34} />
 
-        <label className="block">
-          <span className="text-sm font-medium text-gray-700">E-mail</span>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
-        </label>
-
-        <label className="block">
-          <span className="text-sm font-medium text-gray-700">Senha</span>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          />
-        </label>
-
-        <button
-          type="submit"
-          disabled={loginMutation.isPending}
-          className="w-full rounded bg-blue-600 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+      <div style={{ width: '100%', maxWidth: 'var(--container-auth)' }}>
+        <Card
+          as="form"
+          onSubmit={handleSubmit}
+          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}
         >
-          {loginMutation.isPending ? 'Entrando…' : 'Entrar'}
-        </button>
+          <h1 style={{ font: 'var(--font-h1)', textAlign: 'center' }}>{t('auth.title')}</h1>
 
-        <p className="text-center text-sm">
-          <Link
-            to="/forgot-password"
-            className="text-blue-600 hover:underline"
-          >
-            Esqueci minha senha
-          </Link>
-        </p>
-      </form>
+          {loginMutation.isError && (
+            <Alert tone="danger">{getApiErrorMessage(loginMutation.error)}</Alert>
+          )}
+
+          <Field label={t('auth.email')} htmlFor="login-email">
+            <Input
+              id="login-email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Field>
+
+          <Field label={t('auth.password')} htmlFor="login-pwd">
+            <Input
+              id="login-pwd"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Field>
+
+          <Button type="submit" variant="primary" fullWidth disabled={loginMutation.isPending}>
+            {loginMutation.isPending ? t('auth.entering') : t('auth.enter')}
+          </Button>
+
+          <p style={{ textAlign: 'center', font: 'var(--font-caption)' }}>
+            <Link to="/forgot-password">{t('auth.forgot')}</Link>
+          </p>
+        </Card>
+      </div>
     </div>
   );
 }
