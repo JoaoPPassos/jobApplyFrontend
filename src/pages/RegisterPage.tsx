@@ -40,28 +40,6 @@ export function RegisterPage() {
     registerMutation.mutate({ name, email, password, confirm_password: confirmPassword });
   }
 
-  const wrapper = (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 'var(--space-6)',
-      background: 'var(--surface-page)',
-      padding: 'var(--space-6)',
-      position: 'relative',
-    }}>
-      <div style={{ position: 'absolute', top: 'var(--space-4)', right: 'var(--space-4)' }}>
-        <LanguageSwitcher
-          value={i18n.resolvedLanguage ?? 'pt-BR'}
-          onChange={(code) => i18n.changeLanguage(code)}
-        />
-      </div>
-      <img src={logoSrc} alt="Job Hub" height={34} />
-    </div>
-  );
-
   if (registerMutation.isSuccess) {
     return (
       <div style={{
