@@ -5,7 +5,20 @@
     "password": "Senha",
     "enter": "Entrar",
     "entering": "Entrando…",
-    "forgot": "Esqueci minha senha"
+    "forgot": "Esqueci minha senha",
+    "noAccount": "Não tem uma conta?",
+    "register": "Criar conta"
+  },
+  "register": {
+    "title": "Criar conta",
+    "name": "Nome",
+    "confirmPwd": "Confirmar senha",
+    "pwdHint": "A senha deve ter no mínimo 8 caracteres, com maiúscula, minúscula, número e caractere especial.",
+    "pwdMismatch": "As senhas não conferem.",
+    "submit": "Criar conta",
+    "submitting": "Criando…",
+    "haveAccount": "Já tem uma conta?",
+    "login": "Entrar"
   },
   "recover": {
     "title": "Recuperar senha",

@@ -5,7 +5,20 @@
     "password": "Contraseña",
     "enter": "Entrar",
     "entering": "Entrando…",
-    "forgot": "Olvidé mi contraseña"
+    "forgot": "Olvidé mi contraseña",
+    "noAccount": "¿No tienes una cuenta?",
+    "register": "Crear cuenta"
+  },
+  "register": {
+    "title": "Crear cuenta",
+    "name": "Nombre",
+    "confirmPwd": "Confirmar contraseña",
+    "pwdHint": "La contraseña debe tener al menos 8 caracteres, con mayúscula, minúscula, número y carácter especial.",
+    "pwdMismatch": "Las contraseñas no coinciden.",
+    "submit": "Crear cuenta",
+    "submitting": "Creando…",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "login": "Entrar"
   },
   "recover": {
     "title": "Recuperar contraseña",

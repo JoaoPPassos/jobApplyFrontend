@@ -5,7 +5,20 @@
     "password": "Password",
     "enter": "Sign in",
     "entering": "Signing in…",
-    "forgot": "Forgot my password"
+    "forgot": "Forgot my password",
+    "noAccount": "Don't have an account?",
+    "register": "Create account"
+  },
+  "register": {
+    "title": "Create account",
+    "name": "Name",
+    "confirmPwd": "Confirm password",
+    "pwdHint": "Password must be at least 8 characters, with uppercase, lowercase, a number and a special character.",
+    "pwdMismatch": "Passwords do not match.",
+    "submit": "Create account",
+    "submitting": "Creating…",
+    "haveAccount": "Already have an account?",
+    "login": "Sign in"
   },
   "recover": {
     "title": "Reset password",

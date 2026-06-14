@@ -2,9 +2,9 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { login } from '../services/auth.service';
-import { saveSession } from '../services/storage';
+import { signUp } from '../services/auth.service';
 import { getApiErrorMessage } from '../services/api';
+import { STRONG_PASSWORD_REGEX } from '../types/auth';
 import { Card } from '../components/ui/Card';
 import { Field } from '../components/ui/Field';
 import { Input } from '../components/ui/Input';
@@ -13,23 +13,34 @@ import { Alert } from '../components/ui/Alert';
 import { LanguageSwitcher } from '../components/ui/LanguageSwitcher';
 import logoSrc from '../assets/logo.svg';
 
-export function LoginPage() {
+export function RegisterPage() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [validationError, setValidationError] = useState('');
 
-  const loginMutation = useMutation({
-    mutationFn: login,
-    onSuccess: (data) => {
-      saveSession(data);
-      navigate('/', { replace: true });
-    },
+  const registerMutation = useMutation({
+    mutationFn: signUp,
+    onSuccess: () => navigate('/login', { replace: true, state: { registered: true } }),
   });
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    loginMutation.mutate({ email, password });
+    setValidationError('');
+
+    if (!STRONG_PASSWORD_REGEX.test(password)) {
+      setValidationError(t('register.pwdHint'));
+      return;
+    }
+    if (password !== confirmPassword) {
+      setValidationError(t('register.pwdMismatch'));
+      return;
+    }
+
+    registerMutation.mutate({ name, email, password, confirm_password: confirmPassword });
   }
 
   return (
@@ -59,15 +70,27 @@ export function LoginPage() {
           onSubmit={handleSubmit}
           style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}
         >
-          <h1 style={{ font: 'var(--font-h1)', textAlign: 'center' }}>{t('auth.title')}</h1>
+          <h1 style={{ font: 'var(--font-h1)', textAlign: 'center' }}>{t('register.title')}</h1>
 
-          {loginMutation.isError && (
-            <Alert tone="danger">{getApiErrorMessage(loginMutation.error)}</Alert>
+          {(registerMutation.isError || validationError) && (
+            <Alert tone="danger">
+              {validationError || getApiErrorMessage(registerMutation.error)}
+            </Alert>
           )}
 
-          <Field label={t('auth.email')} htmlFor="login-email">
+          <Field label={t('register.name')} htmlFor="reg-name">
             <Input
-              id="login-email"
+              id="reg-name"
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Field>
+
+          <Field label={t('auth.email')} htmlFor="reg-email">
+            <Input
+              id="reg-email"
               type="email"
               required
               value={email}
@@ -75,9 +98,9 @@ export function LoginPage() {
             />
           </Field>
 
-          <Field label={t('auth.password')} htmlFor="login-pwd">
+          <Field label={t('auth.password')} htmlFor="reg-pwd">
             <Input
-              id="login-pwd"
+              id="reg-pwd"
               type="password"
               required
               value={password}
@@ -85,16 +108,22 @@ export function LoginPage() {
             />
           </Field>
 
-          <Button type="submit" variant="primary" fullWidth disabled={loginMutation.isPending}>
-            {loginMutation.isPending ? t('auth.entering') : t('auth.enter')}
+          <Field label={t('register.confirmPwd')} htmlFor="reg-confirm">
+            <Input
+              id="reg-confirm"
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </Field>
+
+          <Button type="submit" variant="primary" fullWidth disabled={registerMutation.isPending}>
+            {registerMutation.isPending ? t('register.submitting') : t('register.submit')}
           </Button>
 
           <p style={{ textAlign: 'center', font: 'var(--font-caption)' }}>
-            <Link to="/forgot-password">{t('auth.forgot')}</Link>
-          </p>
-
-          <p style={{ textAlign: 'center', font: 'var(--font-caption)' }}>
-            {t('auth.noAccount')} <Link to="/register">{t('auth.register')}</Link>
+            {t('register.haveAccount')} <Link to="/login">{t('register.login')}</Link>
           </p>
         </Card>
       </div>
