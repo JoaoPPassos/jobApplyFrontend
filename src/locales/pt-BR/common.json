@@ -18,7 +18,9 @@
     "submit": "Criar conta",
     "submitting": "Criando…",
     "haveAccount": "Já tem uma conta?",
-    "login": "Entrar"
+    "login": "Entrar",
+    "successTitle": "Verifique seu e-mail",
+    "successHint": "Enviamos um link de confirmação para {{email}}. Clique nele antes de fazer login."
   },
   "recover": {
     "title": "Recuperar senha",

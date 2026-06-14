@@ -22,10 +22,7 @@ export function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [validationError, setValidationError] = useState('');
 
-  const registerMutation = useMutation({
-    mutationFn: signUp,
-    onSuccess: () => navigate('/login', { replace: true, state: { registered: true } }),
-  });
+  const registerMutation = useMutation({ mutationFn: signUp });
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -41,6 +38,63 @@ export function RegisterPage() {
     }
 
     registerMutation.mutate({ name, email, password, confirm_password: confirmPassword });
+  }
+
+  const wrapper = (
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 'var(--space-6)',
+      background: 'var(--surface-page)',
+      padding: 'var(--space-6)',
+      position: 'relative',
+    }}>
+      <div style={{ position: 'absolute', top: 'var(--space-4)', right: 'var(--space-4)' }}>
+        <LanguageSwitcher
+          value={i18n.resolvedLanguage ?? 'pt-BR'}
+          onChange={(code) => i18n.changeLanguage(code)}
+        />
+      </div>
+      <img src={logoSrc} alt="Job Hub" height={34} />
+    </div>
+  );
+
+  if (registerMutation.isSuccess) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 'var(--space-6)',
+        background: 'var(--surface-page)',
+        padding: 'var(--space-6)',
+        position: 'relative',
+      }}>
+        <div style={{ position: 'absolute', top: 'var(--space-4)', right: 'var(--space-4)' }}>
+          <LanguageSwitcher
+            value={i18n.resolvedLanguage ?? 'pt-BR'}
+            onChange={(code) => i18n.changeLanguage(code)}
+          />
+        </div>
+        <img src={logoSrc} alt="Job Hub" height={34} />
+        <div style={{ width: '100%', maxWidth: 'var(--container-auth)' }}>
+          <Card style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', textAlign: 'center' }}>
+            <h1 style={{ font: 'var(--font-h1)' }}>{t('register.successTitle')}</h1>
+            <p style={{ font: 'var(--font-body)', color: 'var(--text-muted)' }}>
+              {t('register.successHint', { email })}
+            </p>
+            <Button variant="primary" fullWidth onClick={() => navigate('/login')}>
+              {t('register.login')}
+            </Button>
+          </Card>
+        </div>
+      </div>
+    );
   }
 
   return (
