@@ -1,6 +1,7 @@
 services:
   frontend:
     image: ghcr.io/joaoppassos/jobapplyfrontend:latest
+    build: .
     restart: always
     ports:
       - "5173:5173"
