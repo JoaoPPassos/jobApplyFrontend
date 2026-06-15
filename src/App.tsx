@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { ApplicationsPage } from './pages/ApplicationsPage';
 import { ApplicationFormPage } from './pages/ApplicationFormPage';
 import { PrivateRoute } from './components/PrivateRoute';
@@ -16,6 +17,7 @@ export function App() {
       <Route element={<PrivateRoute />}>
         <Route element={<Layout />}>
           <Route path="/" element={<ApplicationsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route path="/applications/new" element={<ApplicationFormPage />} />
           <Route
             path="/applications/:id/edit"

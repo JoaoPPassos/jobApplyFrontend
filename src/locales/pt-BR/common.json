@@ -38,7 +38,18 @@
     "back": "Voltar para o login"
   },
   "header": {
-    "logout": "Sair"
+    "logout": "Sair",
+    "settings": "Configurações"
+  },
+  "settings": {
+    "title": "Configurações",
+    "emailSection": "Credenciais de e-mail",
+    "emailHint": "Informe a senha de aplicativo da sua conta de e-mail. Ela será usada pelo microserviço para monitorar sua caixa de entrada.",
+    "accountEmail": "Conta de e-mail",
+    "appPassword": "Senha de aplicativo",
+    "save": "Salvar",
+    "saving": "Salvando…",
+    "saved": "Credenciais salvas com sucesso."
   },
   "list": {
     "title": "Minhas aplicações",

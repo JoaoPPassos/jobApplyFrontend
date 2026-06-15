@@ -38,7 +38,18 @@
     "back": "Back to sign in"
   },
   "header": {
-    "logout": "Sign out"
+    "logout": "Sign out",
+    "settings": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "emailSection": "Email credentials",
+    "emailHint": "Enter your email account app password. It will be used by the microservice to monitor your inbox.",
+    "accountEmail": "Email account",
+    "appPassword": "App password",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Credentials saved successfully."
   },
   "list": {
     "title": "My applications",

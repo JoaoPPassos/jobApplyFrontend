@@ -38,7 +38,18 @@
     "back": "Volver al inicio de sesión"
   },
   "header": {
-    "logout": "Salir"
+    "logout": "Salir",
+    "settings": "Configuración"
+  },
+  "settings": {
+    "title": "Configuración",
+    "emailSection": "Credenciales de correo",
+    "emailHint": "Ingresa la contraseña de aplicación de tu cuenta de correo. Será usada por el microservicio para monitorear tu bandeja de entrada.",
+    "accountEmail": "Cuenta de correo",
+    "appPassword": "Contraseña de aplicación",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "saved": "Credenciales guardadas con éxito."
   },
   "list": {
     "title": "Mis postulaciones",
