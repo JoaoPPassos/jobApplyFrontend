@@ -3,6 +3,7 @@ import type { ApiResponse } from '../types/api';
 import type {
   AuthenticateUserDTO,
   AuthLogin,
+  AuthTokens,
   AuthUser,
   CreateUserDTO,
   ResetPasswordDTO,
@@ -41,4 +42,12 @@ export async function verifyResetCode(
 
 export async function resetPassword(payload: ResetPasswordDTO): Promise<void> {
   await api.post<ApiResponse<null>>('/auth/reset-password', payload);
+}
+
+export async function refreshTokens(refreshToken: string): Promise<AuthTokens> {
+  const { data } = await api.post<ApiResponse<AuthTokens>>(
+    '/auth/refresh-token',
+    { refreshToken },
+  );
+  return data.data;
 }

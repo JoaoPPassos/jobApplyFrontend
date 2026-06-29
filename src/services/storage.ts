@@ -1,4 +1,4 @@
-import type { AuthLogin, AuthUser } from '../types/auth';
+import type { AuthLogin, AuthTokens, AuthUser } from '../types/auth';
 
 const ACCESS_TOKEN_KEY = 'jobapply.accessToken';
 const REFRESH_TOKEN_KEY = 'jobapply.refreshToken';
@@ -8,6 +8,11 @@ export function saveSession(login: AuthLogin): void {
   localStorage.setItem(ACCESS_TOKEN_KEY, login.accessToken);
   localStorage.setItem(REFRESH_TOKEN_KEY, login.refreshToken);
   localStorage.setItem(USER_KEY, JSON.stringify(login.user));
+}
+
+export function saveTokens(tokens: AuthTokens): void {
+  localStorage.setItem(ACCESS_TOKEN_KEY, tokens.accessToken);
+  localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken);
 }
 
 export function getAccessToken(): string | null {
