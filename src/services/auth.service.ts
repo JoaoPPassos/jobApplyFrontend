@@ -46,7 +46,7 @@ export async function resetPassword(payload: ResetPasswordDTO): Promise<void> {
 
 export async function refreshTokens(refreshToken: string): Promise<AuthTokens> {
   const { data } = await api.post<ApiResponse<AuthTokens>>(
-    '/auth/refresh-token',
+    '/auth/refresh',
     { refreshToken },
   );
   return data.data;
